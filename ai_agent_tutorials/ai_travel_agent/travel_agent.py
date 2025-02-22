@@ -3,17 +3,21 @@ from agno.agent import Agent
 from agno.tools.serpapi import SerpApiTools
 import streamlit as st
 from agno.models.openai import OpenAIChat
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Set up the Streamlit app
 st.title("AI Travel Planner ✈️")
 st.caption("Plan your next adventure with AI Travel Planner by researching and planning a personalized itinerary on autopilot using GPT-4o")
 
-# Get OpenAI API key from user
-openai_api_key = st.text_input("Enter OpenAI API Key to access GPT-4o", type="password")
+# Get API keys from environment variables
+openai_api_key = os.getenv('OPENAI_API_KEY')
+serp_api_key = os.getenv('SERP_API_KEY')
 
-# Get SerpAPI key from the user
-serp_api_key = st.text_input("Enter Serp API Key for Search functionality", type="password")
-
+# Remove the text input fields and proceed with agent initialization if keys are present
 if openai_api_key and serp_api_key:
     researcher = Agent(
         name="Researcher",
